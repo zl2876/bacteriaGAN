@@ -62,4 +62,32 @@ Outputs will be saved in `./results/dibas_pix2pix/tesst_latest/images/`.
 
 ### Classifier train/test
 
+To train and test the pix2pix on our dataset, run `dibas_classifier.ipynb` on Google Colab using a GPU. The main contents of the notebook are as follows.
+
+- Load & prepare original dataset
+
+We will use torchvision and torch.utils.data packages for loading the data. Training images will be resized to 256x256 and randomly flipped horziontally (data augmentation) and normalized. Valudation images will be resized to 256x256 and normalized. 
+
+To load the dataset (with shortcut on your "My Drive"), we use `torchvision.datasets.ImageFolder` with root as the path to the DIBaS Original Dataset, then split the data using sklearn.model_selection.train_tests_split with test_size = 0.25 so that train-to-val ratio is 8:2 when generated images are added to the training set.
+
+- Load & prepare pix2pix generated dataset
+
+As outputs from dibas_pix2pix.ipynb will not be sorted into the format required for `torchvision.datasets.ImageFolder`, we have created a `moveFile` method to sort images into subfolders for their strain by their file names. Pass the variable path as `'./results/dibas_pix2pix/test_latest/images/'`, or the location of the generated image outputs in your workspace. 
+Then, load the data using ImageFolder and concatenate with previously loaded training data. 
+
+For the data loaders, set dataset names appropriately for train and val loaders and adjust training batch size to length of `data_train_wfake`.
+
+- Finetuning the convnet
+
+Load a pretrained model and reset final fully connected layer. Here, we use MADGRAD from Facebook AI, which has been pip installed in the first cell from [https://github.com/facebookresearch/madgrad]. A lower weight decay than normal may be applied for better results, often 0.
+
+- Training
+
+Adjust epoch number and train model.
+```
+model_ft, loss, acc = train_model(model, criterion, optim, num_epochs=epoch)
+```
+- Evaluation
+When executed, will return plot graphs of training/validation accuracy and loss, per-class accuracy as an array, confusion matrix, classsification report, and ten samples with true/predicted labels. 
+
 
