@@ -16,7 +16,7 @@ DIBaS Sorted Dataset for pix2pix[https://drive.google.com/drive/folders/1sRcxDld
 
 - Add shortcut to MyDrive or any subfolder within MyDrive.
 
-### pix2pix train/test
+## cGAN `dibas_pix2pix.ipynb`
 
 To train and test the pix2pix on our dataset, run `dibas_pix2pix.ipynb` using Google Colab. The contents of the notebook are as follows.
 
@@ -62,7 +62,7 @@ Change the `--dataroot` and `--name` to your own dataset's path and model's name
 Change the `--dataroot`, `--name`, and `--direction` to be consistent with your trained model's configuration and how you want to transform images.
 Outputs will be saved in as a zip file in `/content/gdrive/"My Drive"/finalproject/pix2pix_results.zip`. 
 
-### Classifier train/test
+## Image classifier `dibas_classifier.ipynb`
 
 To train and test the pix2pix on our dataset, run `dibas_classifier.ipynb` on Google Colab using a GPU. The main contents of the notebook are as follows.
 
