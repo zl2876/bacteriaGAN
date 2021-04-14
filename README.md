@@ -14,27 +14,27 @@ The Digital Images of Bacteria Species dataset (DIBaS), collected by Jagiellonia
 DIBaS Original Dataset for classification[https://drive.google.com/drive/folders/125ukQizEPnNS4KhASyOyhWi-Rse9uynu?usp=sharing]
 DIBaS Sorted Dataset for pix2pix[https://drive.google.com/drive/folders/1sRcxDldxM6WQz1JjvO_IqI375obUv6wC?usp=sharing]
 
-- Add shortcut to MyDrive or any subfolder within MyDrive.
+- **Add shortcut to MyDrive or any subfolder within MyDrive.**
 
 ## cGAN `dibas_pix2pix.ipynb`
 
 To train and test the pix2pix on our dataset, run `dibas_pix2pix.ipynb` using Google Colab. The contents of the notebook are as follows.
 
-- Clone pix2pix repo 
+- **Clone pix2pix repo**
 ```
 !git clone https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix
 import os
 os.chdir('pytorch-CycleGAN-and-pix2pix/')
 !pip install -r requirements.txt
 ```
-- Load dataset
+- **Load dataset**
 
 Requires authentication of Google account with access to data files.
 ```
 from google.colab import drive
 drive.mount('/content/gdrive', force_remount = True)
 ```
-- Prepare dataset
+- **Prepare dataset**
 
 Pix2pix's training requires paired data. A python script to generate training data in the form of pairs of images {A,B}, where A and B are two different depictions of the same underlying scene, is included in pix2pix repo. To use this script, create folder /path/to/data with subdirectories A and B. A and B should each have their own subdirectories train, val, test, etc. In /path/to/data/A/train, put training images in style A. In /path/to/data/B/train, put the corresponding images in style B. Repeat same for other data splits (val, test, etc). Corresponding images in a pair {A,B} must be the same size and have the same filename, e.g., /path/to/data/A/train/1.jpg is considered to correspond to /path/to/data/B/train/1.jpg. 
 
@@ -49,30 +49,35 @@ where if accessed using Google Drive with shortcut of dataset on My Drive would 
 ```
 !python ./datasets/combine_A_and_B.py --fold_A /content/gdrive/"My Drive"/finalproject/A --fold_B /content/gdrive/"My Drive"/finalproject/B --fold_AB /content/gdrive/"My Drive"/finalproject/AB
 ```
-- Training
+- **Training**
 
 `python train.py --dataroot /content/gdrive/"My Drive"/finalproject/AB --name dibas_pix2pix --model pix2pix --direction BtoA`
 
 Change the `--dataroot` and `--name` to your own dataset's path and model's name. Use `--gpu_ids 0,1,..` to train on multiple GPUs and `--batch_size` to change the batch size. Add `--direction BtoA` if you want to train a model to transfrom from class B to A.
 
-- Testing
+- **Testing**
 
 `python test.py --dataroot /content/gdrive/"My Drive"/finalproject/AB --direction BtoA --model pix2pix --name dibas_pix2pix`
 
 Change the `--dataroot`, `--name`, and `--direction` to be consistent with your trained model's configuration and how you want to transform images.
 Outputs will be saved in as a zip file in `/content/gdrive/"My Drive"/finalproject/pix2pix_results.zip`. 
 
+- **Assessment**
+
+We have included code to calculate the Inception score for evaluation of generated images using the implementation from the Salimans et al. (2016) paper. This will take the path to the folder of generated images, resize all of the images within the folder, and returns a single value Inception Score. 
+
+
 ## Image classifier `dibas_classifier.ipynb`
 
 To train and test the pix2pix on our dataset, run `dibas_classifier.ipynb` on Google Colab using a GPU. The main contents of the notebook are as follows.
 
-- Load & prepare original dataset
+- **Load & prepare original dataset**
 
 We will use torchvision and torch.utils.data packages for loading the data. Training images will be resized to 256x256 and randomly flipped horziontally (data augmentation) and normalized. Valudation images will be resized to 256x256 and normalized. 
 
 To load the dataset (with shortcut on your "My Drive"), we use `torchvision.datasets.ImageFolder` with root as the path to the DIBaS Original Dataset, then split the data using sklearn.model_selection.train_tests_split with test_size = 0.25 so that train-to-val ratio is 8:2 when generated images are added to the training set.
 
-- Load & prepare pix2pix generated dataset
+- **Load & prepare pix2pix generated dataset**
 
 Unzip `/content/gdrive/"My Drive"/finalproject/pix2pix_results.zip`, or zip file of dibas_pix2pix.ipynb test results. 
 
@@ -82,17 +87,17 @@ Then, load the data using ImageFolder and concatenate with previously loaded tra
 
 For the data loaders, set dataset names appropriately for train and val loaders and adjust training batch size to length of `data_train_wfake`.
 
-- Finetuning the convnet
+- **Finetuning the convnet**
 
 Load a pretrained model and reset final fully connected layer. Here, we use MADGRAD from Facebook AI, which has been pip installed in the first cell from [https://github.com/facebookresearch/madgrad]. A lower weight decay than normal may be applied for better results, often 0.
 
-- Training
+- **Training**
 
 Adjust epoch number and train model.
 ```
 model_ft, loss, acc = train_model(model, criterion, optim, num_epochs=epoch)
 ```
-- Evaluation
+- **Evaluation**
 
 When executed, will return plot graphs of training/validation accuracy and loss, per-class accuracy as an array, confusion matrix, classsification report, and ten samples with true/predicted labels. 
 
