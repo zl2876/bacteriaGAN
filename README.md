@@ -56,10 +56,11 @@ where if accessed using Google Drive with shortcut of dataset on My Drive would 
 Change the `--dataroot` and `--name` to your own dataset's path and model's name. Use `--gpu_ids 0,1,..` to train on multiple GPUs and `--batch_size` to change the batch size. Add `--direction BtoA` if you want to train a model to transfrom from class B to A.
 
 - Testing
+
 `python test.py --dataroot /content/gdrive/"My Drive"/finalproject/AB --direction BtoA --model pix2pix --name dibas_pix2pix`
 
 Change the `--dataroot`, `--name`, and `--direction` to be consistent with your trained model's configuration and how you want to transform images.
-Outputs will be saved in `./results/dibas_pix2pix/tesst_latest/images/`.
+Outputs will be saved in as a zip file in `/content/gdrive/"My Drive"/finalproject/pix2pix_results.zip`. 
 
 ### Classifier train/test
 
@@ -73,7 +74,10 @@ To load the dataset (with shortcut on your "My Drive"), we use `torchvision.data
 
 - Load & prepare pix2pix generated dataset
 
-As outputs from dibas_pix2pix.ipynb will not be sorted into the format required for `torchvision.datasets.ImageFolder`, we have created a `moveFile` method to sort images into subfolders for their strain by their file names. Pass the variable path as `'./results/dibas_pix2pix/test_latest/images/'`, or the location of the generated image outputs in your workspace. 
+Unzip `/content/gdrive/"My Drive"/finalproject/pix2pix_results.zip`, or zip file of dibas_pix2pix.ipynb test results. 
+
+As outputs from dibas_pix2pix.ipynb will not be sorted into the format required for `torchvision.datasets.ImageFolder`, we have created a `moveFile` method to sort images into subfolders for their strain by their file names. Pass the variable `path = '/content/gdrive/"My Drive"/finalproject/pix2pix_results/'`, or the location of the folder with pix2pix generated image outputs (unzipped) in your workspace. 
+
 Then, load the data using ImageFolder and concatenate with previously loaded training data. 
 
 For the data loaders, set dataset names appropriately for train and val loaders and adjust training batch size to length of `data_train_wfake`.
