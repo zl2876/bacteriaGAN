@@ -47,7 +47,8 @@ Once the data is formatted, call:
 ```
 where if accessed using Google Drive with shortcut of dataset on My Drive would be 
 ```
-!python ./datasets/combine_A_and_B.py --fold_A /content/gdrive/"My Drive"/finalproject/A --fold_B /content/gdrive/"My Drive"/finalproject/B --fold_AB /content/gdrive/"My Drive"/finalproject/AB
+!python ./datasets/combine_A_and_B.py --fold_A /content/gdrive/"My Drive"/finalproject/A 
+--fold_B /content/gdrive/"My Drive"/finalproject/B --fold_AB /content/gdrive/"My Drive"/finalproject/AB
 ```
 - **Training**
 
