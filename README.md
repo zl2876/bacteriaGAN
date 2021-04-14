@@ -5,6 +5,7 @@ To attempt to build a relatively large-scale dataset of high-quality, labeled im
 - Linux or macOS
 - Python 3
 - NVIDIA GPU + CUDA CuDNN
+
 ## Getting Started
 
 ### Accessing data & preparation 
@@ -88,6 +89,6 @@ Adjust epoch number and train model.
 model_ft, loss, acc = train_model(model, criterion, optim, num_epochs=epoch)
 ```
 - Evaluation
-When executed, will return plot graphs of training/validation accuracy and loss, per-class accuracy as an array, confusion matrix, classsification report, and ten samples with true/predicted labels. 
 
+When executed, will return plot graphs of training/validation accuracy and loss, per-class accuracy as an array, confusion matrix, classsification report, and ten samples with true/predicted labels. 
 
