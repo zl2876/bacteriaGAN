@@ -102,6 +102,6 @@ model_ft, loss, acc = train_model(model, criterion, optim, num_epochs=epoch)
 
 When executed, will return plot graphs of training/validation accuracy and loss, per-class accuracy as an array, confusion matrix, classsification report, and ten samples with true/predicted labels. 
 
-## Image evaluation (inception score module) `inception _score.ipynb`
+## Image evaluation `inception _score.ipynb`
 
-To obtain an inception score to assess the quality of the generated images, run `inception _score.ipynb`. This script takes the folder of images, resizes all of the images within the folder (as in `dibas_classifier.ipynb`), and calculates the Inception Score using the implementation found in the Salimans et al. paper. The output is the average and standard deviation of the inception sscore for each fake image file. 
+To obtain an inception score to assess the quality of the generated images, run `inception _score.ipynb`. This script takes the folder of images, resizes all of the images within the folder (as in `dibas_classifier.ipynb`), and calculates the Inception Score using the implementation found in the Salimans et al. paper. The output is the average and standard deviation of the inception score for each fake image file. 
